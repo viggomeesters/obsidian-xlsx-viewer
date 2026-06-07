@@ -27,7 +27,7 @@ This checklist tracks the repository state needed before submitting the plugin t
 
 ## Artifact attestations
 
-The release workflow attests `main.js`, `manifest.json`, and `styles.css` with `actions/attest-build-provenance`.
+The repository includes a release workflow that attests `main.js`, `manifest.json`, and `styles.css` with `actions/attest-build-provenance`. The `0.1.0` release was published manually because GitHub Actions is currently disabled for the owner account, so the Community automated review may show a non-blocking recommendation about missing artifact attestations.
 
 ## Directory Submission
 
