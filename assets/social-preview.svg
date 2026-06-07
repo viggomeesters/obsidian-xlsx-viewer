@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">XLSX Viewer social preview</title>
+  <desc id="desc">Read-only workbook values inside a dark table interface.</desc>
+  <rect width="1200" height="630" fill="#16181d"/>
+  <rect x="68" y="70" width="1064" height="490" rx="24" fill="#20242b" stroke="#3a404b"/>
+  <text x="112" y="158" fill="#f8fafc" font-family="Inter, Arial, sans-serif" font-size="58" font-weight="800">XLSX Viewer</text>
+  <text x="116" y="208" fill="#a8adb8" font-family="Inter, Arial, sans-serif" font-size="25">Read-only workbook values without launching Excel</text>
+  <g transform="translate(116 266)">
+    <rect width="968" height="224" rx="14" fill="#111827" stroke="#3a404b"/>
+    <rect width="968" height="48" rx="14" fill="#29313f"/>
+    <g fill="#d7dce8" font-family="Menlo, Consolas, monospace" font-size="19" font-weight="700">
+      <text x="28" y="31">#</text><text x="106" y="31">A</text><text x="320" y="31">B</text><text x="536" y="31">C</text><text x="752" y="31">D</text>
+    </g>
+    <g fill="#e8df72" font-family="Menlo, Consolas, monospace" font-size="19">
+      <text x="28" y="88">1</text><text x="106" y="88">name</text><text x="320" y="88">status</text><text x="536" y="88">rows</text><text x="752" y="88">sheet</text>
+      <text x="28" y="136">2</text><text x="106" y="136">vault-data</text><text x="320" y="136">ready</text><text x="536" y="136">227</text><text x="752" y="136">Sheet 1</text>
+      <text x="28" y="184">3</text><text x="106" y="184">ai-export</text><text x="320" y="184">review</text><text x="536" y="184">1000</text><text x="752" y="184">Archive</text>
+    </g>
+    <g stroke="#29313f">
+      <line x1="74" y1="0" x2="74" y2="224"/>
+      <line x1="284" y1="0" x2="284" y2="224"/>
+      <line x1="500" y1="0" x2="500" y2="224"/>
+      <line x1="716" y1="0" x2="716" y2="224"/>
+      <line x1="0" y1="48" x2="968" y2="48"/>
+      <line x1="0" y1="104" x2="968" y2="104"/>
+      <line x1="0" y1="152" x2="968" y2="152"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,30 @@
+{
+  "name": "obsidian-xlsx-viewer",
+  "version": "0.1.0",
+  "description": "Read-only XLSX workbook value viewer.",
+  "license": "MIT",
+  "author": "Viggo Meesters",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/viggomeesters/obsidian-xlsx-viewer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/viggomeesters/obsidian-xlsx-viewer/issues"
+  },
+  "homepage": "https://github.com/viggomeesters/obsidian-xlsx-viewer#readme",
+  "type": "module",
+  "scripts": {
+    "build": "NODE_ENV=production node esbuild.config.mjs",
+    "dev": "node esbuild.config.mjs",
+    "test": "node scripts/parser-test.mjs && node scripts/smoke-test.mjs"
+  },
+  "dependencies": {
+    "read-excel-file": "^6.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "esbuild": "^0.25.12",
+    "obsidian": "^1.8.7",
+    "typescript": "^5.9.3"
+  }
+}

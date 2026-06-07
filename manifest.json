@@ -1,0 +1,10 @@
+{
+  "id": "xlsx-viewer",
+  "name": "XLSX Viewer",
+  "version": "0.1.0",
+  "minAppVersion": "1.5.0",
+  "description": "Open .xlsx workbooks as read-only value tables with sheet tabs, search, and row limits.",
+  "author": "Viggo Meesters",
+  "authorUrl": "https://github.com/viggomeesters",
+  "isDesktopOnly": false
+}
