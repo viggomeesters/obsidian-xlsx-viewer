@@ -2,11 +2,11 @@
 
 Current release target: `0.1.0`
 
-This plugin is currently scoped for personal/local use. If it is submitted later, use this checklist before publishing.
+This checklist tracks the repository state needed before submitting the plugin through the Obsidian Community site.
 
 ## Repository
 
-- [ ] Public GitHub repository exists.
+- [x] Public GitHub repository exists.
 - [x] `README.md` describes what the plugin does and how to use it.
 - [x] `LICENSE` exists.
 - [x] `manifest.json` exists at repository root.
@@ -17,17 +17,17 @@ This plugin is currently scoped for personal/local use. If it is submitted later
 
 ## Release
 
-- [ ] `npm run build` passes.
-- [ ] `npx tsc --noEmit` passes.
-- [ ] `npm test` passes.
-- [ ] GitHub release tag equals `manifest.json.version`.
-- [ ] Release assets include `main.js`.
-- [ ] Release assets include `manifest.json`.
-- [ ] Release assets include `styles.css`.
+- [x] `npm run build` passes.
+- [x] `npx tsc --noEmit` passes.
+- [x] `npm test` passes.
+- [x] GitHub release tag equals `manifest.json.version`.
+- [x] Release assets include `main.js`.
+- [x] Release assets include `manifest.json`.
+- [x] Release assets include `styles.css`.
 
 ## Artifact attestations
 
-For a public release, prefer GitHub Actions with artifact attestations for `main.js` and `styles.css`. Manual releases are still usable, but automated review may show a recommendation about missing artifact attestations.
+The release workflow attests `main.js`, `manifest.json`, and `styles.css` with `actions/attest-build-provenance`.
 
 ## Directory Submission
 

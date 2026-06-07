@@ -4,11 +4,15 @@ const manifest = JSON.parse(fs.readFileSync("manifest.json", "utf8"));
 const main = fs.readFileSync("src/main.ts", "utf8");
 const parser = fs.readFileSync("src/parser.ts", "utf8");
 const styles = fs.readFileSync("styles.css", "utf8");
+const versions = JSON.parse(fs.readFileSync("versions.json", "utf8"));
+const bundle = fs.readFileSync("main.js", "utf8");
 
 const assertions = [
   [manifest.id === "xlsx-viewer", "manifest id is xlsx-viewer"],
   [manifest.version === "0.1.0", "manifest version is 0.1.0"],
+  [versions[manifest.version] === manifest.minAppVersion, "versions.json maps manifest version to min app version"],
   [!/obsidian/i.test(manifest.description), "manifest description avoids product name"],
+  [/^[a-z-]+$/.test(manifest.id) && !manifest.id.includes("obsidian") && !manifest.id.endsWith("plugin"), "manifest id follows directory rules"],
   [main.includes("registerExtensions(XLSX_EXTENSIONS"), "xlsx extension is registered"],
   [main.includes("extends FileView"), "binary FileView is used"],
   [main.includes("this.app.vault.readBinary(file)"), "vault binary reader is used"],
@@ -16,9 +20,11 @@ const assertions = [
   [parser.includes("RENDER_ROW_LIMIT = 10000"), "render cap exists"],
   [parser.includes("readSheetNames") && parser.includes("readXlsxFile"), "read-excel-file workbook parser is used"],
   [!main.includes("navigator.clipboard") && !parser.includes("navigator.clipboard"), "no clipboard access"],
-  [!main.includes("fetch(") && !parser.includes("fetch("), "no fetch usage"],
+  [!main.includes("fetch(") && !parser.includes("fetch(") && !bundle.includes("fetch("), "no fetch usage"],
   [!main.includes("writeBinary") && !main.includes("writeFile") && !parser.includes("writeFile"), "no workbook writeback"],
   [!styles.includes("!important"), "styles do not use important overrides"],
+  [fs.existsSync("README.md") && fs.existsSync("LICENSE") && fs.existsSync("manifest.json"), "root submission files exist"],
+  [fs.existsSync("main.js") && fs.existsSync("styles.css"), "release assets exist"],
 ];
 
 const failures = assertions.filter(([passes]) => !passes).map(([, label]) => label);

@@ -3,15 +3,15 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/viggomeesters/obsidian-xlsx-viewer/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/viggomeesters/obsidian-xlsx-viewer?style=flat-square"></a>
   <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/badge/license-MIT-green?style=flat-square"></a>
   <img alt="Minimum app version 1.5.0+" src="https://img.shields.io/badge/minimum-1.5.0%2B-7c3aed?style=flat-square">
   <img alt="Read-only" src="https://img.shields.io/badge/mode-read--only-0f766e?style=flat-square">
-  <img alt="Local v0.1" src="https://img.shields.io/badge/local-v0.1-2563eb?style=flat-square">
 </p>
 
 # XLSX Viewer
 
-XLSX Viewer is a small read-only plugin for opening `.xlsx` files as workbook tables without launching Excel. It is built for quick inspection of AI-generated spreadsheets, exports, and reference files inside a vault.
+XLSX Viewer is a read-only plugin for opening `.xlsx` files as workbook tables without launching Excel. It is built for quick inspection of AI-generated spreadsheets, exports, and reference files inside a vault.
 
 ![XLSX Viewer preview](assets/screenshot.svg)
 
@@ -41,15 +41,29 @@ Spreadsheet files can become large quickly. XLSX Viewer parses the workbook and 
 
 XLSX Viewer does not make network requests and does not send vault content to external services. It does not use the system clipboard. It reads files through the vault API and renders a local view.
 
-## Local installation
+## Installation
 
-This repository is currently intended for personal/local use.
+### Community plugin directory
 
-1. Run `npm install` and `npm run build`.
+XLSX Viewer is ready for submission to the Obsidian Community plugin directory. Once accepted, it can be installed from **Settings -> Community plugins -> Browse** inside Obsidian.
+
+### Manual installation
+
+Until the community directory submission is accepted:
+
+1. Download `main.js`, `manifest.json`, and `styles.css` from the [latest release](https://github.com/viggomeesters/obsidian-xlsx-viewer/releases/latest).
 2. Create this folder in your vault: `.obsidian/plugins/xlsx-viewer/`.
-3. Copy `main.js`, `manifest.json`, and `styles.css` into that folder.
-4. Reload the app.
+3. Put the downloaded files in that folder.
+4. Reload Obsidian.
 5. Enable **XLSX Viewer** in **Settings -> Community plugins**.
+
+### BRAT installation
+
+For beta testing, install the plugin with [BRAT](https://github.com/TfTHacker/obsidian42-brat) using this repository URL:
+
+```text
+https://github.com/viggomeesters/obsidian-xlsx-viewer
+```
 
 ## Usage
 
@@ -70,15 +84,50 @@ npx tsc --noEmit
 npm test
 ```
 
-## Release checklist
+For local development, copy or symlink this repository into `.obsidian/plugins/xlsx-viewer/` inside a test vault.
 
-If this plugin is later published publicly, use the same release shape as the other viewer plugins:
+## Release process
+
+Obsidian installs community plugin files from GitHub releases. For each release:
 
 1. Update `manifest.json`, `package.json`, and `versions.json`.
 2. Run `npm install`, `npm run build`, `npx tsc --noEmit`, and `npm test`.
 3. Create a GitHub release whose tag exactly matches `manifest.json.version`.
 4. Attach `main.js`, `manifest.json`, and `styles.css` as release assets.
-5. Add artifact attestations if publishing through GitHub Actions.
+
+The repository includes a GitHub Actions release workflow with artifact attestation support. If GitHub Actions is disabled for the owner account, manual releases are still usable for Obsidian, but the Community automated review may show a recommendation about missing artifact attestations.
+
+## Community directory submission
+
+The repository is prepared for Obsidian Community plugin submission. The remaining submission step must be completed by the repository owner in the Obsidian Community site because it requires signing in, linking GitHub, and confirming the developer policies/support commitment.
+
+Submit this repository URL:
+
+```text
+https://github.com/viggomeesters/obsidian-xlsx-viewer
+```
+
+Steps:
+
+1. Sign in to [community.obsidian.md](https://community.obsidian.md).
+2. Link the GitHub account that owns this repository.
+3. Open **Plugins -> New plugin**.
+4. Enter the repository URL above.
+5. Confirm the developer policies and submit.
+6. Address any automated review feedback.
+
+The current release is ready for review:
+
+- root `README.md`, `LICENSE`, and `manifest.json` exist
+- `manifest.json.version` is `0.1.0`
+- GitHub release `0.1.0` exists
+- release assets include `main.js`, `manifest.json`, and `styles.css`
+- `versions.json` maps supported Obsidian versions
+
+Official references:
+
+- [Submit your plugin](https://docs.obsidian.md/Plugins/Releasing/Submit%20your%20plugin)
+- [Obsidian releases repository](https://github.com/obsidianmd/obsidian-releases)
 
 ## Parser dependency
 
