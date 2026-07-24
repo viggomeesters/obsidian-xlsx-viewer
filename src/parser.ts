@@ -1,7 +1,8 @@
 import readXlsxFile, { readSheetNames } from "read-excel-file";
 import type { CellValue, Row } from "read-excel-file";
+import { parseOds, readOdsContent } from "./parser-ods";
 
-const RENDER_ROW_LIMIT = 10000;
+export const RENDER_ROW_LIMIT = 10000;
 
 export interface WorksheetTable {
   name: string;
@@ -21,22 +22,37 @@ export interface ParsedWorkbook {
 
 export async function parseWorkbook(data: ArrayBuffer): Promise<ParsedWorkbook> {
   if (!hasZipSignature(data)) {
-    throw new Error("File is not a valid .xlsx workbook.");
+    throw new Error("File is not a valid spreadsheet.");
   }
 
+  const odsContent = readOdsContent(data);
+  if (odsContent !== null) {
+    return parseOds(odsContent);
+  }
+
+  return parseXlsx(data);
+}
+
+async function parseXlsx(data: ArrayBuffer): Promise<ParsedWorkbook> {
   const sheetNames = await readSheetNames(data);
   const warnings: string[] = [];
   if (sheetNames.length === 0) warnings.push("Workbook has no sheets.");
 
   const sheets = await Promise.all(
-    sheetNames.map(async (name) => worksheetToTable(name, await readXlsxFile(data, { sheet: name, trim: false }))),
+    sheetNames.map(async (name) => {
+      const rawRows = await readXlsxFile(data, { sheet: name, trim: false });
+      return worksheetToTable(name, stringifyRows(rawRows));
+    }),
   );
 
   return { sheetNames, sheets, warnings };
 }
 
-function worksheetToTable(name: string, rawRows: Row[]): WorksheetTable {
-  const rows = rawRows.map((row) => row.map((cell) => formatCell(cell)));
+function stringifyRows(rawRows: Row[]): string[][] {
+  return rawRows.map((row) => row.map((cell) => formatCell(cell)));
+}
+
+export function worksheetToTable(name: string, rows: string[][]): WorksheetTable {
   const columnCount = rows.reduce((max, row) => Math.max(max, row.length), 0);
   const renderedRows = rows.slice(0, RENDER_ROW_LIMIT);
   const skippedRows = Math.max(0, rows.length - renderedRows.length);
