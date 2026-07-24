@@ -12,7 +12,12 @@ const MAX_ROWS = 20000;
 export function readOdsContent(data: ArrayBuffer): string | null {
   let files: Record<string, Uint8Array>;
   try {
-    files = unzipSync(new Uint8Array(data));
+    // Only decompress the two probe entries. For an .xlsx (which has neither)
+    // this matches nothing and returns almost instantly, avoiding a full
+    // redundant unzip before read-excel-file handles the xlsx path itself.
+    files = unzipSync(new Uint8Array(data), {
+      filter: (file) => file.name === "mimetype" || file.name === "content.xml",
+    });
   } catch {
     return null;
   }
