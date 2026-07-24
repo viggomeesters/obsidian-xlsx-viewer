@@ -92,7 +92,13 @@ function readRowCells(rowEl: Element): string[] {
 }
 
 function cellText(cellEl: Element): string {
-  const paragraphs = Array.from(cellEl.getElementsByTagName("text:p"));
+  // Only the cell's own direct-child paragraphs hold its value. Using a
+  // recursive lookup would also pull in <text:p> nested inside cell comments
+  // (<office:annotation>) or anchored text boxes (<draw:frame>), leaking that
+  // text into the displayed value.
+  const paragraphs = childElements(cellEl).filter(
+    (el) => el.tagName === "text:p" || el.tagName === "text:h",
+  );
   if (paragraphs.length === 0) return "";
   return paragraphs.map((paragraph) => paragraph.textContent ?? "").join("\n");
 }

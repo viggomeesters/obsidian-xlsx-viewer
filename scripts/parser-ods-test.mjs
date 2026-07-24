@@ -59,8 +59,15 @@ function cellXml(cell) {
   if (typeof cell === "object") {
     const repeat = cell.colRepeat ? ` table:number-columns-repeated="${cell.colRepeat}"` : "";
     const formula = cell.formula ? ` table:formula="${escapeXml(cell.formula)}"` : "";
-    if (cell.text === undefined || cell.text === "") return `<table:table-cell${repeat}${formula}/>`;
-    return `<table:table-cell${repeat}${formula}><text:p>${escapeXml(String(cell.text))}</text:p></table:table-cell>`;
+    const comment = cell.comment
+      ? `<office:annotation><text:p>${escapeXml(String(cell.comment))}</text:p></office:annotation>`
+      : "";
+    const value =
+      cell.text === undefined || cell.text === ""
+        ? ""
+        : `<text:p>${escapeXml(String(cell.text))}</text:p>`;
+    if (!comment && !value) return `<table:table-cell${repeat}${formula}/>`;
+    return `<table:table-cell${repeat}${formula}>${comment}${value}</table:table-cell>`;
   }
   return `<table:table-cell><text:p>${escapeXml(String(cell))}</text:p></table:table-cell>`;
 }
@@ -95,6 +102,12 @@ assert.equal(basic.sheets[0].renderedRows[1][2], "TRUE");
 assert.equal(basic.sheets[0].renderedRows[1][3], "2026-06-07");
 assert.equal(basic.sheets[0].renderedRows[2][1], "50%");
 assert.equal(basic.sheets[0].renderedRows[2][3], "4"); // cached formula result
+
+// --- cell comments (office:annotation) must not leak into the cell value ---
+const commented = await parseWorkbook(
+  odsBuffer([{ name: "Commented", rows: [[{ text: "42", comment: "see note" }]] }]),
+);
+assert.equal(commented.sheets[0].renderedRows[0][0], "42");
 
 // --- multi-sheet workbook ---
 const multi = await parseWorkbook(
