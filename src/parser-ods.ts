@@ -16,15 +16,23 @@ export function readOdsContent(data: ArrayBuffer): string | null {
   }
 
   const mimetype = files["mimetype"] ? strFromU8(files["mimetype"]).trim() : "";
+  // A different, known mimetype (another ODF app such as .odt/.odp, or any
+  // non-spreadsheet package) is not ours — let it fall through to the xlsx path.
+  if (mimetype && mimetype !== ODS_MIMETYPE) return null;
+
+  const contentBytes = files["content.xml"];
+  const content = contentBytes ? strFromU8(contentBytes) : "";
+
+  // Accept when the mimetype names a spreadsheet, or (for producers that omit
+  // the optional mimetype entry) when the content is actually a spreadsheet.
   const looksLikeOds =
-    mimetype === ODS_MIMETYPE ||
-    (Boolean(files["content.xml"]) && !files["[Content_Types].xml"]);
+    mimetype === ODS_MIMETYPE || content.includes("<office:spreadsheet");
 
   if (!looksLikeOds) return null;
-  if (!files["content.xml"]) {
+  if (!contentBytes) {
     throw new Error("File is not a valid .ods spreadsheet.");
   }
-  return strFromU8(files["content.xml"]);
+  return content;
 }
 
 export function parseOds(_contentXml: string): ParsedWorkbook {
