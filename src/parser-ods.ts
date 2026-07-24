@@ -61,10 +61,10 @@ function readTableRows(table: Element): string[][] {
   for (const rowEl of rowEls) {
     const repeat = repeatCount(rowEl.getAttribute("table:number-rows-repeated"));
     const cells = readRowCells(rowEl);
-    for (let copy = 0; copy < repeat && rows.length <= MAX_ROWS; copy += 1) {
+    for (let copy = 0; copy < repeat && rows.length < MAX_ROWS; copy += 1) {
       rows.push(cells.slice());
     }
-    if (rows.length > MAX_ROWS) break;
+    if (rows.length >= MAX_ROWS) break;
   }
 
   return trimTrailingEmptyRows(rows);
