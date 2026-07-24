@@ -16,7 +16,7 @@
   "scripts": {
     "build": "NODE_ENV=production node esbuild.config.mjs",
     "dev": "node esbuild.config.mjs",
-    "test": "node scripts/parser-test.mjs && node scripts/smoke-test.mjs"
+    "test": "node scripts/parser-test.mjs && node scripts/parser-ods-test.mjs && node scripts/smoke-test.mjs"
   },
   "dependencies": {
     "fflate": "^0.8.3",
