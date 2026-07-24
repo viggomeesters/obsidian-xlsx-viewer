@@ -11,13 +11,13 @@
 
 # XLSX Viewer
 
-XLSX Viewer is a read-only plugin for opening `.xlsx` files as workbook tables without launching Excel. It is built for quick inspection of AI-generated spreadsheets, exports, and reference files inside a vault.
+XLSX Viewer is a read-only plugin for opening `.xlsx` and `.ods` files as workbook tables without launching Excel or LibreOffice Calc. It is built for quick inspection of AI-generated spreadsheets, exports, and reference files inside a vault.
 
 ![XLSX Viewer preview](assets/screenshot.svg)
 
 ## Features
 
-- Opens `.xlsx` files in a dedicated view.
+- Opens `.xlsx` and `.ods` files in a dedicated view.
 - Shows one sheet at a time with sheet tabs.
 - Displays cell values only.
 - Shows cached/formatted formula values when they are present in the workbook.
@@ -67,7 +67,7 @@ https://github.com/viggomeesters/obsidian-xlsx-viewer
 
 ## Usage
 
-Open any `.xlsx` file in your vault. The file opens with XLSX Viewer.
+Open any `.xlsx` or `.ods` file in your vault. The file opens with XLSX Viewer.
 
 Use the toolbar to:
 
@@ -131,7 +131,7 @@ Official references:
 
 ## Parser dependency
 
-XLSX Viewer uses [read-excel-file](https://gitlab.com/catamphetamine/read-excel-file) to read workbook data. The dependency is bundled into `main.js` at build time.
+XLSX Viewer uses [read-excel-file](https://gitlab.com/catamphetamine/read-excel-file) to read `.xlsx` workbook data. `.ods` files are read with [fflate](https://github.com/101arrowz/fflate) to unpack the archive and a built-in XML parser for the sheet content. These dependencies are bundled into `main.js` at build time.
 
 ## License
 
