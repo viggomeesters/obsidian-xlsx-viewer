@@ -10,6 +10,8 @@ import { ParsedWorkbook, WorksheetTable, columnLabel, parseWorkbook } from "./pa
 
 const VIEW_TYPE_XLSX_VIEWER = "xlsx-viewer";
 const XLSX_EXTENSIONS = ["xlsx"];
+const ODS_EXTENSIONS = ["ods"];
+const SUPPORTED_EXTENSIONS = [...XLSX_EXTENSIONS, ...ODS_EXTENSIONS];
 
 export default class XlsxViewerPlugin extends Plugin {
   async onload(): Promise<void> {
@@ -18,23 +20,34 @@ export default class XlsxViewerPlugin extends Plugin {
       (leaf) => new XlsxViewerView(leaf),
     );
     this.registerExtensions(XLSX_EXTENSIONS, VIEW_TYPE_XLSX_VIEWER);
+    this.registerExtensions(ODS_EXTENSIONS, VIEW_TYPE_XLSX_VIEWER);
 
     this.addCommand({
       id: "open-current-xlsx-in-viewer",
       name: "Open current XLSX file in viewer",
-      checkCallback: (checking) => {
-        const file = this.app.workspace.getActiveFile();
-        if (!isXlsxFile(file)) return false;
+      checkCallback: (checking) =>
+        this.openActiveFileIfExtension(checking, XLSX_EXTENSIONS),
+    });
 
-        if (!checking) {
-          void this.openXlsxFile(file);
-        }
-        return true;
-      },
+    this.addCommand({
+      id: "open-current-ods-in-viewer",
+      name: "Open current ODS file in viewer",
+      checkCallback: (checking) =>
+        this.openActiveFileIfExtension(checking, ODS_EXTENSIONS),
     });
   }
 
-  async openXlsxFile(file: TFile): Promise<void> {
+  private openActiveFileIfExtension(checking: boolean, extensions: string[]): boolean {
+    const file = this.app.workspace.getActiveFile();
+    if (!file || !extensions.includes(file.extension.toLowerCase())) return false;
+
+    if (!checking) {
+      void this.openSpreadsheet(file);
+    }
+    return true;
+  }
+
+  async openSpreadsheet(file: TFile): Promise<void> {
     const leaf = this.app.workspace.getLeaf(false);
     await leaf.setViewState({
       type: VIEW_TYPE_XLSX_VIEWER,
@@ -101,12 +114,12 @@ class XlsxViewerView extends FileView {
     this.renderToolbar(header);
 
     if (!this.file) {
-      renderMessage(container, "No XLSX file is attached to this viewer.");
+      renderMessage(container, "No spreadsheet file is attached to this viewer.");
       return;
     }
 
-    if (!isXlsxFile(this.file)) {
-      renderMessage(container, "This viewer only supports .xlsx files.");
+    if (!isSupportedFile(this.file)) {
+      renderMessage(container, "This viewer supports .xlsx and .ods files.");
       return;
     }
 
@@ -138,7 +151,7 @@ class XlsxViewerView extends FileView {
     const title = parent.createDiv({ cls: "xlsx-viewer__title" });
     title.createDiv({
       cls: "xlsx-viewer__filename",
-      text: this.file?.name ?? "XLSX file",
+      text: this.file?.name ?? "Spreadsheet",
     });
     title.createDiv({
       cls: "xlsx-viewer__path",
@@ -200,7 +213,7 @@ class XlsxViewerView extends FileView {
 
   private async reloadFile(): Promise<void> {
     if (!this.file) {
-      new Notice("No XLSX file to refresh");
+      new Notice("No spreadsheet to refresh");
       return;
     }
     await this.loadWorkbook(this.file);
@@ -307,8 +320,8 @@ function renderMessage(parent: HTMLElement, message: string): void {
   parent.createDiv({ cls: "xlsx-viewer__message", text: message });
 }
 
-function isXlsxFile(file: TFile | null): file is TFile {
-  return Boolean(file && XLSX_EXTENSIONS.includes(file.extension.toLowerCase()));
+function isSupportedFile(file: TFile | null): file is TFile {
+  return Boolean(file && SUPPORTED_EXTENSIONS.includes(file.extension.toLowerCase()));
 }
 
 function getErrorMessage(error: unknown): string {
