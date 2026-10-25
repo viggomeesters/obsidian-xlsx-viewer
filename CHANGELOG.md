@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.1 - 2026-10-25
+
+- Cross-platform production build.
+- Current Community installation documentation.
+
+
 All notable changes to XLSX Viewer are documented here.
 
 ## 0.1.0 - 2026-06-07

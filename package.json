@@ -1,6 +1,6 @@
 {
   "name": "obsidian-xlsx-viewer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Read-only XLSX workbook value viewer.",
   "license": "MIT",
   "author": "Viggo Meesters",
@@ -14,7 +14,7 @@
   "homepage": "https://github.com/viggomeesters/obsidian-xlsx-viewer#readme",
   "type": "module",
   "scripts": {
-    "build": "NODE_ENV=production node esbuild.config.mjs",
+    "build": "node esbuild.config.mjs production",
     "dev": "node esbuild.config.mjs",
     "test": "node scripts/parser-test.mjs && node scripts/smoke-test.mjs"
   },
