@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.0 - 2026-11-10
+
+- Add read-only OpenDocument Spreadsheet (.ods) viewing with bounded parsing and preview warnings.
+
 ## 0.1.1 - 2026-10-25
 
 - Cross-platform production build.
