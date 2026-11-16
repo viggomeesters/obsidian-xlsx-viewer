@@ -108,3 +108,6 @@ ODS previews reject archives larger than 32 MiB, archives with more than 4,096 e
 ## License
 
 [MIT](LICENSE)
+
+
+[Obsidian 1.15.1 assessment: checked source, local results and remaining host validation](docs/obsidian-1.15.1.md).
