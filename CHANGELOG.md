@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.1 - 2026-11-16
+
+- Maintenance verification for Obsidian 1.15.1 on macOS desktop.
+- Add reproducible official Obsidian lint checks; no runtime code change.
+
 ## 0.2.0 - 2026-11-10
 
 - Add read-only OpenDocument Spreadsheet (.ods) viewing with bounded parsing and preview warnings.
