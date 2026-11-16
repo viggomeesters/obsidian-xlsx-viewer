@@ -4,8 +4,11 @@ Maintenance patch `0.2.1`. Runtime code is unchanged. The actual desktop host ex
 
 ## Exercised behavior
 
-- Real fixture-specific rendered values and the existing relevant view actions.
-- Available malformed/empty fallback states, unchanged input hashes, extension/command unregister and reload content.
+- Checked fixture-specific expected rendered values for `fixtures/xlsx-viewer/normal.xlsx`.
+- Toolbar actions were not exercised in this host batch.
+- Asserted `malformed error` for `fixtures/xlsx-viewer/malformed.xlsx`.
+- Opened 0 further fixtures as smoke checks for nonempty content and no plugin-load failure; their exact semantic output was not asserted.
+- Verified unchanged hashes for every opened input, removed extension/command registrations after detaching leaves, and reloaded the primary fixture with its expected values.
 
 ## Environment and validation
 
